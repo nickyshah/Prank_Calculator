@@ -15,12 +15,15 @@ const display = (str) => {
 const operators = ["+", "-", "*","/", "%"]
 
 let lastOperator = ""
+const audio = new Audio("./sound.wav")
 
 
 allBtns.forEach((btn) =>{
     
     btn.addEventListener("click", () => { 
-        
+        displayElm.style.background = ""
+        displayElm.style.color = ""
+        displayElm.classList.remove("prank")
         const val = btn.innerText
 
         if (val === "AC"){
@@ -79,8 +82,21 @@ allBtns.forEach((btn) =>{
 
 
 const total = () => {
-    const ttl = eval(strToDisplay)
+
+    const extraVal = randomNumber()
+    if(extraVal){
+        audio.play()
+        displayElm.style.background = "red"
+        displayElm.style.color = "white"
+        displayElm.classList.add("prank")
+    }
+
+    const ttl = eval(strToDisplay) + extraVal
     display(ttl)
     strToDisplay = ttl.toString()
 }
 
+const randomNumber = () => {
+    const num = Math.round(Math.random() * 10)
+    return num < 3 ? num : 0
+}
